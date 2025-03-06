@@ -1,5 +1,3 @@
-
-
 pub fn modify_image_slightly(input_path: &str, output_path: &str) {
     let img = image::open(input_path).expect("Failed to open image");
     let mut modified_img = img.to_rgba8();

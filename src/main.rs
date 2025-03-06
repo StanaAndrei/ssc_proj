@@ -5,8 +5,7 @@ use std::io::Read;
 
 
 mod utils; // Declare the `utils` module
-use utils::file::add_changed_to_filename;
-use utils::img::modify_image_slightly;
+use utils::{file, img};
 
 fn get_file_hash(file_path: &str) -> String {
     let mut file = File::open(file_path).expect("Failed to open file");
@@ -33,8 +32,8 @@ fn main() {
     .get_matches();
 
     let input_path = matches.value_of("input_file").unwrap();
-    let output_path = add_changed_to_filename(input_path);
-    modify_image_slightly(input_path, output_path.as_str());
+    let output_path = file::add_suffix_to_filename(input_path, "changed");
+    img::modify_image_slightly(input_path, output_path.as_str());
 
     let original_hash = get_file_hash(input_path);
     println!("Original file SHA256: {}", original_hash);
