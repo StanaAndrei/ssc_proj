@@ -1,23 +1,10 @@
 use clap::{App, Arg};
-use sha2::{Digest, Sha256};
-use std::fs::File;
-use std::io::Read;
 
+mod sha_demo;
+use sha_demo::sha;
 
-mod utils; // Declare the `utils` module
+mod utils;
 use utils::{file, img};
-
-fn get_file_hash(file_path: &str) -> String {
-    let mut file = File::open(file_path).expect("Failed to open file");
-    let mut buffer = Vec::new();
-    file.read_to_end(&mut buffer).expect("Failed to read file");
-
-    let mut hasher = Sha256::new();
-    hasher.update(&buffer);
-    let result = hasher.finalize();
-
-    format!("{:x}", result)
-}
 
 
 fn main() {
@@ -35,9 +22,9 @@ fn main() {
     let output_path = file::add_suffix_to_filename(input_path, "changed");
     img::modify_image_slightly(input_path, output_path.as_str());
 
-    let original_hash = get_file_hash(input_path);
+    let original_hash = sha::get_file_hash(input_path);
     println!("Original file SHA256: {}", original_hash);
 
-    let modified_hash = get_file_hash(output_path.as_str());
+    let modified_hash = sha::get_file_hash(output_path.as_str());
     println!("Modified file SHA256: {}", modified_hash);
 }
