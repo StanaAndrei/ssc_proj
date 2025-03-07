@@ -10,8 +10,8 @@ use utils::{file, img};
 fn main() {
     let matches = App::new("ssc_proj")
     .version("1.0")
-    .author("<NAME> <<EMAIL>>")
-    .about("ssc_proj")
+    .author("Stana Andrew")
+    .about("Simple demo of digital signatures and hashes.")
     .arg(Arg::with_name("input_file")
         .help("Sets the input file to use")
         .required(true)
