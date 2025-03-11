@@ -20,7 +20,7 @@ pub fn save_image_from_raw_pixels(raw_pixels: &[u8], width: u32, height: u32, ou
     Ok(())
 }
 
-pub fn modify_first_pixel_red(pixels: &[u8]) -> Vec<u8> {
+pub fn modify_first_pixel_red_inc(pixels: &[u8]) -> Vec<u8> {
     if pixels.is_empty() {
         return Vec::new();
     }
@@ -31,6 +31,25 @@ pub fn modify_first_pixel_red(pixels: &[u8]) -> Vec<u8> {
     if !modified_pixels.is_empty() {
         if modified_pixels[0] < 255 {
             modified_pixels[0] += 1;
+        } else {
+            modified_pixels[0] = 0;
+        }
+    }
+
+    modified_pixels
+}
+
+pub fn modify_first_pixel_red_dec(pixels: &[u8]) -> Vec<u8> {
+    if pixels.is_empty() {
+        return Vec::new();
+    }
+
+    let mut modified_pixels = pixels.to_vec();
+
+    // In RGB format, the first byte is the red channel of the first pixel
+    if !modified_pixels.is_empty() {
+        if modified_pixels[0] < 255 {
+            modified_pixels[0] -= 1;
         } else {
             modified_pixels[0] = 0;
         }
