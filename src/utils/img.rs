@@ -26,8 +26,6 @@ pub fn modify_first_pixel_red_inc(pixels: &[u8]) -> Vec<u8> {
     }
 
     let mut modified_pixels = pixels.to_vec();
-
-    // In RGB format, the first byte is the red channel of the first pixel
     if !modified_pixels.is_empty() {
         if modified_pixels[0] < 255 {
             modified_pixels[0] += 1;
@@ -45,13 +43,11 @@ pub fn modify_first_pixel_red_dec(pixels: &[u8]) -> Vec<u8> {
     }
 
     let mut modified_pixels = pixels.to_vec();
-
-    // In RGB format, the first byte is the red channel of the first pixel
     if !modified_pixels.is_empty() {
-        if modified_pixels[0] < 255 {
+        if modified_pixels[0] > 0 {
             modified_pixels[0] -= 1;
         } else {
-            modified_pixels[0] = 0;
+            modified_pixels[0] = 255;
         }
     }
 
