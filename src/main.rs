@@ -20,7 +20,11 @@ fn main() {
 
     let input_path = matches.value_of("input_file").unwrap();
     let output_path = file::add_suffix_to_filename(input_path, "changed");
-    img::modify_1st_pixel_red_ch(input_path, output_path.as_str(), 1);
+    let raw_data = img::extract_raw_pixels(input_path);
+    img::get_image_pixel_hash(&*raw_data.0);
+    img::save_image_from_raw_pixels(&*raw_data.0, raw_data.1,
+                                    raw_data.2, output_path.as_str()
+    ).expect("failed to save image");
 
     let original_hash = sha::get_file_hash(input_path);
     println!("Original file SHA256: {}", original_hash);
