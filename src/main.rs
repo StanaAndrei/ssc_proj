@@ -21,14 +21,14 @@ fn main() {
     let input_path = matches.value_of("input_file").unwrap();
     let output_path = file::add_suffix_to_filename(input_path, "changed");
     let raw_data = img::extract_raw_pixels(input_path);
-    img::get_image_pixel_hash(&*raw_data.0);
+    let modified_raw_pixels = img::modify_first_pixel_red(&*raw_data.0);
     img::save_image_from_raw_pixels(&*raw_data.0, raw_data.1,
                                     raw_data.2, output_path.as_str()
     ).expect("failed to save image");
 
-    let original_hash = sha::get_file_hash(input_path);
+    let original_hash = sha::get_pixels_hash(&*raw_data.0);
     println!("Original file SHA256: {}", original_hash);
 
-    let modified_hash = sha::get_file_hash(output_path.as_str());
-    println!("Modified file SHA256: {}", modified_hash);
+    let changed_hash = sha::get_pixels_hash(&*modified_raw_pixels);
+    println!("Modified file SHA256: {}", changed_hash);
 }
