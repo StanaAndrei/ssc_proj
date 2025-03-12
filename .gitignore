@@ -1,4 +1,4 @@
 /target
 Cargo.lock
-img/*
-!/img/tree.jpg
+files/img/*
+!/files/img/tree.jpg
