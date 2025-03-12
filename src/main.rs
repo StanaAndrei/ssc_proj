@@ -3,6 +3,7 @@ use clap::{App, Arg, SubCommand};
 mod utils;
 mod sha_demo;
 use crate::sha_demo::demo;
+use crate::utils::file;
 
 fn main() {
     let matches = App::new("ssc_proj")
@@ -24,6 +25,10 @@ fn main() {
         demo::demo_non_obs(file);
     } else if let Some(_) = matches.subcommand_matches("clean") {
         println!("Cleaning...");
+        match file::delete_files_except_tree_jpg() {
+            Ok(_) => println!("Cleaned!"),
+            Err(err) => eprintln!("Error: {}", err),
+        }
     } else {
         println!("No valid command provided");
     }
