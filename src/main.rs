@@ -21,7 +21,10 @@ fn main() {
     let input_path = matches.value_of("input_file").unwrap();
     let output_path = file::add_suffix_to_filename(input_path, "changed");
     let raw_data = img::extract_raw_pixels(input_path);
-    let inc_raw_pixels = img::modify_first_pixel_red_inc(&*raw_data.0);
+    let inc_raw_pixels = img::modify_pixels(
+        &*raw_data.0, raw_data.1.try_into().unwrap(),
+        0, (0, 0, 0, 0), 1
+    );
     img::save_image_from_raw_pixels(&*raw_data.0, raw_data.1,
                                     raw_data.2, output_path.as_str()
     ).expect("failed to save image");
@@ -32,7 +35,10 @@ fn main() {
     let changed_hash = sha::get_pixels_hash(&*inc_raw_pixels);
     println!("Modified file SHA256: {}", changed_hash);
 
-    let dec_raw_pixels = img::modify_first_pixel_red_dec(&*inc_raw_pixels);
+    let dec_raw_pixels = img::modify_pixels(
+        &*inc_raw_pixels, raw_data.1.try_into().unwrap(),
+        0, (0, 0, 0, 0), -1
+    );
     let restored_hash = sha::get_pixels_hash(&*dec_raw_pixels);
     println!("Restored file SHA256: {}", restored_hash);
 

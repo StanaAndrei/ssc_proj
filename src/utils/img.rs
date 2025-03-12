@@ -20,34 +20,43 @@ pub fn save_image_from_raw_pixels(raw_pixels: &[u8], width: u32, height: u32, ou
     Ok(())
 }
 
-pub fn modify_first_pixel_red_inc(pixels: &[u8]) -> Vec<u8> {
+pub fn modify_pixels(
+    pixels: &[u8],
+    width: usize,
+    channel: usize,
+    sub_mat: (usize, usize, usize, usize),
+    delta: i16
+) -> Vec<u8> {
     if pixels.is_empty() {
         return Vec::new();
     }
 
     let mut modified_pixels = pixels.to_vec();
-    if !modified_pixels.is_empty() {
-        if modified_pixels[0] < 255 {
-            modified_pixels[0] += 1;
-        } else {
-            modified_pixels[0] = 0;
-        }
-    }
+    let (start_i, start_j, end_i, end_j) = sub_mat;
+    let channels = 4;
 
-    modified_pixels
-}
+    for i in start_i..=end_i {
+        for j in start_j..=end_j {
+            let pixel_index = (i * width + j) * channels + channel;
 
-pub fn modify_first_pixel_red_dec(pixels: &[u8]) -> Vec<u8> {
-    if pixels.is_empty() {
-        return Vec::new();
-    }
+            if pixel_index < modified_pixels.len() {
+                let current_value = modified_pixels[pixel_index] as i16;
+                let new_value = if delta > 0 {
+                    if current_value + delta > 255 {
+                        0
+                    } else {
+                        current_value + delta
+                    }
+                } else {
+                    if current_value + delta < 0 {
+                        255
+                    } else {
+                        current_value + delta
+                    }
+                };
 
-    let mut modified_pixels = pixels.to_vec();
-    if !modified_pixels.is_empty() {
-        if modified_pixels[0] > 0 {
-            modified_pixels[0] -= 1;
-        } else {
-            modified_pixels[0] = 255;
+                modified_pixels[pixel_index] = new_value as u8;
+            }
         }
     }
 
