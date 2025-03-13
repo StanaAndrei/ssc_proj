@@ -41,20 +41,7 @@ pub fn modify_pixels(
 
             if pixel_index < modified_pixels.len() {
                 let current_value = modified_pixels[pixel_index] as i16;
-                let new_value = if delta > 0 {
-                    if current_value + delta > 255 {
-                        0
-                    } else {
-                        current_value + delta
-                    }
-                } else {
-                    if current_value + delta < 0 {
-                        255
-                    } else {
-                        current_value + delta
-                    }
-                };
-
+                let new_value = (current_value + delta).rem_euclid(256);
                 modified_pixels[pixel_index] = new_value as u8;
             }
         }
