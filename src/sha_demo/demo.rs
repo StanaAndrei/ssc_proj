@@ -27,9 +27,6 @@ pub fn demo_non_obs(input_path: &str) {
     );
     let restored_hash = sha::get_pixels_hash(&*dec_raw_pixels);
     println!("Restored file SHA256: {}", restored_hash);
-
-    println!("1st pixel red ch in each img: {} {} {}",
-             raw_data.0[0], inc_raw_pixels[0], dec_raw_pixels[0]);
 }
 
 pub fn demo_obs(input_path: &str) {
