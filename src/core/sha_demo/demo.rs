@@ -1,4 +1,4 @@
-use crate::sha_demo::sha;
+use crate::core::sha_demo::sha;
 use crate::utils::{file, img};
 
 pub fn demo_non_obs(input_path: &str) {

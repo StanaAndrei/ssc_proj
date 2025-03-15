@@ -1,6 +1,6 @@
 mod utils;
-mod sha_demo;
 mod cmd_args;
+mod core;
 
 use crate::cmd_args::arg_config;
 use crate::cmd_args::ctrl::main_ctrl::control;
