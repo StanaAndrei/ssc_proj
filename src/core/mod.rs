@@ -1,2 +1,2 @@
 pub(crate) mod sha_demo;
-mod hmac_demo;
+pub(crate) mod hmac_demo;

@@ -38,5 +38,7 @@ pub fn get_app() -> App<'static> {
                         }
                     })
             )
-        )
+        ).subcommand(SubCommand::with_name("hmac-chat")
+        .about("Subcommand with hmac-chat")
+    )
 }

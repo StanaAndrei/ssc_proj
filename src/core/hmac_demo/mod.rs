@@ -1,1 +1,1 @@
-mod chat_demo;
+pub(crate) mod chat_demo;
