@@ -1,6 +1,7 @@
 use sha2::Sha256;
 use hmac::{Hmac, Mac};
 use std::{thread, time::Duration, iter};
+use rand::Rng;
 
 const SLEEP_TIME: Duration = Duration::from_millis(1_000);
 
@@ -23,15 +24,33 @@ fn get_hex_hmac(msg: &str, secret: &str) -> String {
         .collect::<String>()
 }
 
+fn try_intercept_and_update_msg(mut msg: String) -> String {
+    if msg.is_empty() {
+        return msg;
+    }
+    let mut rng = rand::rng();
+    let success = rng.random_bool(0.5);
+    if success {
+        let pos = rng.random_range(0..msg.len());
+        if let Some(char_indices) = msg.char_indices().nth(pos) {
+            let start = char_indices.0;
+            let char_len = msg[start..].chars().next().unwrap().len_utf8();
+            msg.replace_range(start..start+char_len, "Z");
+        }
+    }
+    msg
+}
+
 pub fn chat_demo() {
     let hex = get_hex_hmac(MSG, SECRET);
     println!("Sending message: \"\n{}\n\"\n & the code: {}", MSG, hex);
     println!("{}", iter::repeat("-").take(100).collect::<String>());
 
     thread::sleep(SLEEP_TIME);
+    let sent_msg = try_intercept_and_update_msg(MSG.to_string());
 
-    println!("Receiver received message: \"{}\"", MSG);
-    let local_hex = get_hex_hmac(MSG, SECRET);
+    println!("Receiver received message: \n\"{}\"", sent_msg);
+    let local_hex = get_hex_hmac(&*sent_msg, SECRET);
     println!("Received code {}", hex);
     println!("Local code:   {}", local_hex);
     if hex != local_hex {
