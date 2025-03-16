@@ -2,6 +2,8 @@ mod utils;
 mod cmd_args;
 mod core;
 
+extern crate num_cpus;
+
 use crate::cmd_args::arg_config;
 use crate::cmd_args::ctrl::main_ctrl::control;
 
