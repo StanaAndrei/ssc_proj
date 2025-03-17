@@ -8,7 +8,7 @@ use crate::core::sha_demo::sha;
 const LOW: i64 = -500_000;
 const HIGH: i64 = 2_000_000;
 
-pub fn collision_demo() {
+pub fn collision_demo_rng() {
     let num_threads = num_cpus::get();
     let hash_set = Arc::new(Mutex::new(HashSet::new()));
     let range_size = (HIGH - LOW + 1) / num_threads as i64;

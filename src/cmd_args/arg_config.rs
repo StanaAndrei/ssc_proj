@@ -43,6 +43,9 @@ pub fn get_app() -> App<'static> {
             .about("Subcommand with hmac-chat")
         )
         .subcommand(SubCommand::with_name("sha-col-rng")
-            .about("Test sha256 collisions")
+            .about("Test sha256 collisions in a range")
+        )
+        .subcommand(SubCommand::with_name("sha-col-str")
+            .about("Test sha256 collisions with random strings")
         )
 }
