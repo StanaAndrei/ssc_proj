@@ -1,59 +1,27 @@
 use std::collections::HashSet;
 use std::sync::{Arc, Mutex};
 use std::thread;
-use std::time::Duration;
-use std::io::{self, Write};
 use crate::core::sha_demo::sha;
+use crate::utils::progress_bar::ProgressBar;
 
-const LOW: i64 = -500_000;
-const HIGH: i64 = 2_000_000;
+const LOW: i64 = -999_999;
+const HIGH: i64 = 1_000_000;
 
 pub fn collision_demo_rng() {
     let num_threads = num_cpus::get();
-    let hash_set = Arc::new(Mutex::new(HashSet::new()));
+    let hash_set: Arc<Mutex<HashSet<String>>> = Arc::new(Mutex::new(HashSet::new()));
     let range_size = (HIGH - LOW + 1) / num_threads as i64;
-
-    let progress = Arc::new(Mutex::new(0i64));
     let total_items = HIGH - LOW + 1;
+
+    let progress_bar = ProgressBar::new(total_items);
+    let progress: Arc<Mutex<i64>> = progress_bar.get_progress_counter();
+    let progress_handle = progress_bar.start();
 
     let mut handles = vec![];
 
-    let progress_clone = Arc::clone(&progress);
-    let progress_handle = thread::spawn(move || {
-        let bar_width = 50;
-
-        loop {
-            thread::sleep(Duration::from_millis(100));
-            let current = *progress_clone.lock().unwrap();
-            let percentage = (current as f64 / total_items as f64) * 100.0;
-
-            let filled_width = (percentage / 100.0 * bar_width as f64) as usize;
-
-            print!("\r\x1B[K");// Clear the current line and move cursor to beginning
-            print!("["); // Print the progress bar
-            for i in 0..bar_width {
-                if i < filled_width {
-                    print!("█");
-                } else {
-                    print!(" ");
-                }
-            }
-
-            print!("] {:.2}% ({}/{} numbers processed)",
-                   percentage, current, total_items);
-
-            io::stdout().flush().unwrap();
-
-            if current >= total_items {
-                println!();
-                break;
-            }
-        }
-    });
-
     for i in 0..num_threads {
-        let thread_hash_set = Arc::clone(&hash_set);
-        let thread_progress = Arc::clone(&progress);
+        let thread_hash_set: Arc<Mutex<HashSet<String>>> = Arc::clone(&hash_set);
+        let thread_progress: Arc<Mutex<i64>> = Arc::clone(&progress);
         let start = LOW + (i as i64 * range_size);
         let end = if i == num_threads - 1 { HIGH } else { start + range_size - 1 };
 
@@ -87,7 +55,7 @@ pub fn collision_demo_rng() {
         handle.join().unwrap();
     }
 
-    progress_handle.join().unwrap();
+    progress_handle.wait();
 
     let int_sz = HIGH - LOW + 1;
     let len = hash_set.lock().unwrap().len();
