@@ -9,7 +9,7 @@ pub fn control(arg_matches: ArgMatches) {
         Some(("sha-img", sub_m)) => { sha_img_control(sub_m) },
         Some(("hmac-chat", _)) => { chat_demo() },
         Some(("clean", _)) => { control_clean() },
-        Some(("sha-col", _)) => { collision_demo() },
+        Some(("sha-col-rng", _)) => { collision_demo() },
         _ => { eprintln!("Unknown subcommand"); }
     }
 }

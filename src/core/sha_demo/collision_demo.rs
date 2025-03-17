@@ -94,7 +94,7 @@ pub fn collision_demo() {
     let collisions = int_sz as usize - len;
 
     if collisions == 0 {
-        println!("No collision detected");
+        println!("No collision detected(as expected)");
     } else {
         println!("{} collisions detected", collisions);
     }

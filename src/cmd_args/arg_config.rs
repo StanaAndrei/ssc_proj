@@ -42,7 +42,7 @@ pub fn get_app() -> App<'static> {
         .subcommand(SubCommand::with_name("hmac-chat")
             .about("Subcommand with hmac-chat")
         )
-        .subcommand(SubCommand::with_name("sha-col")
+        .subcommand(SubCommand::with_name("sha-col-rng")
             .about("Test sha256 collisions")
         )
 }
