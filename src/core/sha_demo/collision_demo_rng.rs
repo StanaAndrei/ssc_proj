@@ -8,6 +8,7 @@ const LOW: i64 = -999_999;
 const HIGH: i64 = 1_000_000;
 
 pub fn collision_demo_rng() {
+    println!("Collision demo [{} {}]", LOW, HIGH);
     let num_threads = num_cpus::get();
     let hash_set: Arc<Mutex<HashSet<String>>> = Arc::new(Mutex::new(HashSet::new()));
     let range_size = (HIGH - LOW + 1) / num_threads as i64;

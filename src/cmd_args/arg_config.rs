@@ -48,4 +48,7 @@ pub fn get_app() -> App<'static> {
         .subcommand(SubCommand::with_name("sha-col-str")
             .about("Test sha256 collisions with random strings")
         )
+        .subcommand(SubCommand::with_name("sha-sens")
+            .about("Test sha256 sensibility")
+        )
 }
