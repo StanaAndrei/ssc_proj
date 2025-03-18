@@ -14,7 +14,11 @@ pub fn control(arg_matches: ArgMatches) {
         Some(("clean", _)) => { control_clean() },
         Some(("sha-col-rng", _)) => { collision_demo_rng() },
         Some(("sha-col-str", _)) => { collision_demo_str() },
-        Some(("sha-sens", _)) => { sensibility_demo() },
+        Some(("sha-sens", sub_matches)) => {
+            let s = sub_matches.value_of("s").unwrap();
+            let t = sub_matches.value_of("t").unwrap();
+            sensibility_demo(s, t)
+        },
         _ => { eprintln!("Unknown subcommand"); }
     }
 }

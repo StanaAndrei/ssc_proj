@@ -1,12 +1,12 @@
+extern crate edit_distance;
+use edit_distance::edit_distance;
+use crate::core::sha_demo::sha;
 
-fn sha_dist(sha1: String, sha2: String) -> u16 {
-    return 0;
-}
-
-fn lev_dist(s1: String, s2: String) -> u16 {
-    return 0;
-}
-
-pub fn sensibility_demo() {
-    println!("Sensibility demo");
+pub fn sensibility_demo(s: &str, t: &str) {
+    let sha_s = sha::get_str_hash(s);
+    let sha_t = sha::get_str_hash(t);
+    let di = edit_distance(s, t);
+    let ds = edit_distance(&*sha_s, &*sha_t);
+    let diff = di.abs_diff(ds);
+    println!("Delta lev dist: {}", diff);
 }
