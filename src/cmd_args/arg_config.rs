@@ -19,6 +19,7 @@ pub fn get_app() -> App<'static> {
             .arg(
                 Arg::with_name("input")
                     .long("input")
+                    .short('i')
                     .value_name("FILE")
                     .help("Input file to process")
                     .takes_value(true)
@@ -26,6 +27,7 @@ pub fn get_app() -> App<'static> {
             .arg(
                 Arg::with_name("obs")
                     .long("obs")
+                    .short('o')
                     .value_name("VALUE")
                     .help("Observable param(0 | 1)")
                     .takes_value(true)
