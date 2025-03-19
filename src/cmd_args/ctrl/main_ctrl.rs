@@ -12,11 +12,15 @@ pub fn control(arg_matches: ArgMatches) {
         Some(("sha-img", sub_m)) => { sha_img_control(sub_m) },
         Some(("hmac-chat", _)) => { chat_demo() },
         Some(("clean", _)) => { control_clean() },
-        Some(("sha-col-rng", _)) => { collision_demo_rng() },
+        Some(("sha-col-rng", sub_m)) => {
+            let low = sub_m.value_of("low").unwrap().parse::<i64>().unwrap();
+            let high = sub_m.value_of("high").unwrap().parse::<i64>().unwrap();
+            collision_demo_rng(low, high)
+        },
         Some(("sha-col-str", _)) => { collision_demo_str() },
-        Some(("sha-sens", sub_matches)) => {
-            let s = sub_matches.value_of("s").unwrap();
-            let t = sub_matches.value_of("t").unwrap();
+        Some(("sha-sens", sub_m)) => {
+            let s = sub_m.value_of("s").unwrap();
+            let t = sub_m.value_of("t").unwrap();
             sensibility_demo(s, t)
         },
         _ => { eprintln!("Unknown subcommand"); }

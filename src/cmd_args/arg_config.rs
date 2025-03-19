@@ -7,6 +7,7 @@ const ABOUT: &str = "\
 Simple demo of digital signatures and hashes. \
 ";
 
+
 pub fn get_app() -> App<'static> {
     App::new(NAME)
         .version(VERSION)
@@ -46,6 +47,24 @@ pub fn get_app() -> App<'static> {
         )
         .subcommand(SubCommand::with_name("sha-col-rng")
             .about("Test sha256 collisions in a range")
+            .arg(Arg::with_name("low")
+                .help("Lower bound of the range")
+                .takes_value(true)
+                .default_value("-999999")
+                .validator(|s| s.parse::<i64>()
+                    .map(|_| ())
+                    .map_err(|_| String::from("low must be an integer"))
+                )
+            )
+            .arg(Arg::with_name("high")
+                .help("Upper bound of the range")
+                .takes_value(true)
+                .default_value("1000000")
+                .validator(|s| s.parse::<i64>()
+                    .map(|_| ())
+                    .map_err(|_| String::from("high must be an integer"))
+                )
+            )
         )
         .subcommand(SubCommand::with_name("sha-col-str")
             .about("Test sha256 collisions with random strings")
